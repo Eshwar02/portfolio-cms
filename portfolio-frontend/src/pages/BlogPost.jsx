@@ -16,19 +16,19 @@ export default function BlogPost() {
   }, [slug]);
 
   return (
-    <div className="min-h-screen bg-white text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--ink)]">
       <Navbar />
-      <article className="mx-auto max-w-3xl px-4 py-16">
-        <Link to="/" className="text-sm text-neutral-500 hover:text-neutral-900 dark:hover:text-white">
+      <article className="mx-auto max-w-3xl px-5 py-16">
+        <Link to="/" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--ink)]">
           ← Back
         </Link>
         {notFound ? (
-          <p className="mt-8 text-neutral-500">Post not found.</p>
+          <p className="mt-8 text-[var(--muted)]">Post not found.</p>
         ) : post ? (
-          <>
-            <h1 className="mt-4 text-3xl font-semibold tracking-tight">{post.title}</h1>
+          <div className="animate-rise">
+            <h1 className="display mt-4 text-4xl font-semibold">{post.title}</h1>
             {post.published_at && (
-              <p className="mt-1 text-sm text-neutral-400">
+              <p className="mt-2 text-sm text-[var(--muted)]">
                 {new Date(post.published_at).toLocaleDateString()}
               </p>
             )}
@@ -36,15 +36,15 @@ export default function BlogPost() {
               <img
                 src={mediaUrl(post.cover_image)}
                 alt={post.title}
-                className="mt-6 w-full rounded-lg border hairline object-cover"
+                className="mt-6 w-full rounded-xl border hairline object-cover"
               />
             )}
-            <div className="mt-6 whitespace-pre-wrap leading-relaxed text-neutral-700 dark:text-neutral-300">
+            <div className="mt-8 whitespace-pre-wrap text-lg leading-relaxed text-[var(--muted)]">
               {post.body}
             </div>
-          </>
+          </div>
         ) : (
-          <p className="mt-8 text-neutral-400">Loading…</p>
+          <p className="mt-8 text-[var(--muted)]">Loading…</p>
         )}
       </article>
     </div>

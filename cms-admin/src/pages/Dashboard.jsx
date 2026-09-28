@@ -23,25 +23,43 @@ export default function Dashboard() {
       .catch(() => {});
   }, []);
 
+  const tiles = [
+    ...RESOURCE_KEYS.map((key) => ({
+      to: `/r/${key}`,
+      label: RESOURCES[key].label,
+      value: counts[key],
+    })),
+    { to: "/messages", label: "Messages", value: messages, accent: true },
+  ];
+
   return (
     <div>
-      <h1 className="mb-1 text-xl font-semibold tracking-tight">Dashboard</h1>
-      <p className="mb-6 text-sm text-neutral-500">Overview of your portfolio content.</p>
+      <div className="mb-8">
+        <h1 className="display text-2xl font-semibold">Dashboard</h1>
+        <p className="mt-1 text-sm text-[var(--muted)]">
+          Everything in your portfolio at a glance.
+        </p>
+      </div>
+
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-        {RESOURCE_KEYS.map((key) => (
-          <Link key={key} to={`/r/${key}`}>
-            <Card className="p-4 transition-colors hover:bg-neutral-50 dark:hover:bg-neutral-800/50">
-              <div className="text-2xl font-semibold">{counts[key] ?? "—"}</div>
-              <div className="mt-1 text-sm text-neutral-500">{RESOURCES[key].label}</div>
+        {tiles.map((t) => (
+          <Link key={t.to} to={t.to} className="group">
+            <Card className="relative overflow-hidden p-5 transition-all duration-200 hover:-translate-y-0.5 hover:[box-shadow:0_8px_24px_-8px_rgb(0_0_0_/_0.18)]">
+              <div
+                className={`absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-[var(--color-accent)] transition-transform duration-300 group-hover:scale-x-100 ${
+                  t.accent ? "scale-x-100" : ""
+                }`}
+              />
+              <div className="text-3xl font-semibold tabular-nums tracking-tight">
+                {t.value ?? "—"}
+              </div>
+              <div className="mt-1.5 flex items-center justify-between text-sm text-[var(--muted)]">
+                <span>{t.label}</span>
+                <span className="opacity-0 transition-opacity group-hover:opacity-100">→</span>
+              </div>
             </Card>
           </Link>
         ))}
-        <Link to="/messages">
-          <Card className="p-4 transition-colors hover:bg-neutral-50 dark:hover:bg-neutral-800/50">
-            <div className="text-2xl font-semibold">{messages}</div>
-            <div className="mt-1 text-sm text-neutral-500">Messages</div>
-          </Card>
-        </Link>
       </div>
     </div>
   );

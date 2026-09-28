@@ -27,34 +27,36 @@ export default function Login() {
   }
 
   return (
-    <div className="grid min-h-screen place-items-center bg-neutral-50 px-4 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100">
+    <div className="relative grid min-h-screen place-items-center overflow-hidden bg-[var(--bg)] px-4 text-[var(--ink)]">
+      {/* soft accent glow */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[720px] -translate-x-1/2 rounded-full opacity-20 blur-3xl"
+        style={{ background: "radial-gradient(closest-side, var(--color-accent), transparent)" }}
+      />
       <div className="absolute right-4 top-4">
         <ThemeToggle />
       </div>
-      <Card className="w-full max-w-sm p-6">
-        <div className="mb-6 flex items-center gap-2">
-          <span className="grid h-8 w-8 place-items-center rounded-md bg-neutral-900 text-sm font-bold text-white dark:bg-white dark:text-neutral-900">
+
+      <Card className="w-full max-w-sm animate-rise p-7">
+        <div className="mb-7 flex items-center gap-3">
+          <span className="grid h-9 w-9 place-items-center rounded-xl bg-[var(--color-accent)] text-sm font-bold text-white shadow-sm">
             P
           </span>
-          <div>
-            <h1 className="text-base font-semibold leading-tight">Portfolio CMS</h1>
-            <p className="text-xs text-neutral-500">Sign in to manage content</p>
+          <div className="leading-tight">
+            <h1 className="text-base font-semibold">Portfolio CMS</h1>
+            <p className="text-xs text-[var(--muted)]">Sign in to manage content</p>
           </div>
         </div>
-        <form onSubmit={submit} className="space-y-3">
+        <form onSubmit={submit} className="space-y-4">
           <div>
-            <label className="mb-1 block text-xs font-medium text-neutral-500">
+            <label className="mb-1.5 block text-xs font-medium text-[var(--muted)]">
               Username
             </label>
-            <Input
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              autoFocus
-              required
-            />
+            <Input value={username} onChange={(e) => setUsername(e.target.value)} autoFocus required />
           </div>
           <div>
-            <label className="mb-1 block text-xs font-medium text-neutral-500">
+            <label className="mb-1.5 block text-xs font-medium text-[var(--muted)]">
               Password
             </label>
             <Input
@@ -64,7 +66,11 @@ export default function Login() {
               required
             />
           </div>
-          {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
+          {error && (
+            <p className="rounded-lg bg-red-500/10 px-3 py-2 text-sm text-red-600 dark:text-red-400">
+              {error}
+            </p>
+          )}
           <Button type="submit" disabled={busy} className="w-full">
             {busy ? "Signing in…" : "Sign in"}
           </Button>

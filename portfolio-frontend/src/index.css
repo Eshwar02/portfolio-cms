@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+/* Class-based dark mode: toggled by adding `.dark` on <html> */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+:root {
+  color-scheme: light dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Sleek hairline: a crisp 1px edge that adapts to theme */
+.hairline {
+  border-color: rgb(0 0 0 / 0.08);
+}
+.dark .hairline {
+  border-color: rgb(255 255 255 / 0.08);
+}

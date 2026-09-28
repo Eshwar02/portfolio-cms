@@ -8,9 +8,9 @@ the public portfolio renders only *published* content via a REST API.
 
 ```
 portfolio_cms/
-├── backend/              Django + DRF + PostgreSQL — the custom CMS API   ✅ Phase 1 complete
-├── cms-admin/            Vite + React + Tailwind — admin dashboard SPA     ⏳ Phase 2
-├── portfolio-frontend/   Vite + React + Tailwind — public portfolio SPA    ⏳ Phase 3
+├── backend/              Django + DRF + PostgreSQL — the custom CMS API   ✅ done
+├── cms-admin/            Vite + React + Tailwind — admin dashboard SPA     ✅ done
+├── portfolio-frontend/   Vite + React + Tailwind — public portfolio SPA    ✅ done
 └── docs/                 design spec + implementation plans
 ```
 
@@ -34,6 +34,44 @@ Django + DRF REST API with:
 
 See [`backend/README.md`](backend/README.md) for setup and the full endpoint list.
 
+## CMS Admin (`cms-admin/`)
+
+React + Vite + Tailwind dashboard with **dark/light theme**, a **static navbar**, and sleek
+hairline edges:
+
+- JWT login with token refresh (axios interceptor)
+- Config-driven CRUD for all 8 content resources (one config → list + create/edit forms)
+- Profile editor, media upload, contact-message inbox (read/unread/delete)
+- Draft ↔ published control per item
+
+```bash
+cd cms-admin
+npm install
+npm run dev        # http://localhost:5174   (set VITE_API_BASE in .env if the API isn't on :8000)
+```
+
+## Portfolio Frontend (`portfolio-frontend/`)
+
+Public site (React + Vite + Tailwind), same design language, fetches **published** content:
+
+- Hero/profile, About, Skills, Projects, Experience, Education, Services, Testimonials, Blog
+- Blog detail pages, contact form → `POST /api/contact/`
+- Dark/light theme, static navbar, responsive
+
+```bash
+cd portfolio-frontend
+npm install
+npm run dev        # http://localhost:5173
+```
+
+## Running the whole stack locally
+
+1. Start PostgreSQL and follow `backend/README.md` to migrate + `createsuperuser` + `runserver` (`:8000`).
+2. `cd cms-admin && npm run dev` — log in with the superuser, add content, mark items **published**.
+3. `cd portfolio-frontend && npm run dev` — the public site renders the published content.
+
+CORS is preconfigured for `localhost:5173` and `localhost:5174` via `CORS_ALLOWED_ORIGINS`.
+
 ## Tech stack
 
 | Layer | Tech |
@@ -42,7 +80,7 @@ See [`backend/README.md`](backend/README.md) for setup and the full endpoint lis
 | Auth | djangorestframework-simplejwt |
 | Database | PostgreSQL 18 |
 | API docs | drf-spectacular (Swagger UI) |
-| Frontend (planned) | React + Vite + Tailwind CSS, axios |
+| Frontend | React 19 + Vite + Tailwind CSS v4, react-router, axios |
 
 ## Docs
 

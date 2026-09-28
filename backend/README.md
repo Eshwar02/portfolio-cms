@@ -70,3 +70,35 @@ cd backend
 . .venv/bin/activate
 python -m pytest -v
 ```
+
+## Deployment
+
+Production hardening is built in and gated on `DEBUG=False`: WhiteNoise static serving,
+Gunicorn, HSTS + secure cookies + SSL redirect, `CSRF_TRUSTED_ORIGINS`, and a
+`/api/health/` check (DB connectivity) for platform health probes.
+
+**Files:** `build.sh` (install → collectstatic → migrate → init_admin), `Procfile`,
+`render.yaml`, `.env.production.example`.
+
+Deploy (e.g. Render): point the service at `backend/`, set the env vars from
+`.env.production.example`, and the release/build step runs migrations and provisions the
+admin from `DJANGO_ADMIN_*`.
+
+### Supabase (production database)
+
+The schema is already provisioned in the Supabase project `ystrwluykagppzrtuklt`
+(all Django tables + migration/permission bookkeeping). To point the API at it, set in the
+deploy environment (or a local `.env`):
+
+```
+DATABASE_URL=postgresql://postgres.ystrwluykagppzrtuklt:[DB_PASSWORD]@aws-0-<region>.pooler.supabase.com:5432/postgres
+DB_SSLMODE=require
+DEBUG=False
+```
+
+Grab the exact **Session pooler** connection string (with password) from
+Supabase → Project Settings → Database. Because the schema is pre-migrated, `migrate` is a
+no-op on first deploy.
+
+> **Security:** enable Row Level Security on all tables (Django connects as the owner role and
+> bypasses RLS, so it keeps working while the public PostgREST/anon path is blocked).

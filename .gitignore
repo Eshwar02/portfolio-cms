@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+*.sqlite3
+.env
+.env.*
+!.env.example
+
+# Django
+media/
+staticfiles/
+/backend/media/
+/backend/staticfiles/
+
+# Node
+node_modules/
+dist/
+.vite/
+*.local
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+*.log
+
+# Test / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# PDF source (keep out of app builds)

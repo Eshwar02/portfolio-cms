@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema
 from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -57,10 +58,14 @@ class SocialLinkViewSet(viewsets.ModelViewSet):
 
 
 class ProfileView(APIView):
+    serializer_class = ProfileSerializer
+
+    @extend_schema(responses=ProfileSerializer)
     def get(self, request):
         obj = Profile.objects.first()
         return Response(ProfileSerializer(obj).data if obj else {})
 
+    @extend_schema(request=ProfileSerializer, responses=ProfileSerializer)
     def put(self, request):
         obj = Profile.objects.first()
         ser = (
